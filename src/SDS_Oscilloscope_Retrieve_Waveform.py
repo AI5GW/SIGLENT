@@ -11,13 +11,19 @@
  *
 """
 
+import sys
 import pyvisa as visa
 import numpy as np
 import matplotlib.pyplot as plotter
 
-#USB resource of Device
-rm = visa.ResourceManager()
-device = rm.open_resource('TCPIP::192.168.188.30::INSTR',query_delay=0.25)
+try:
+    rm = visa.ResourceManager()
+
+    # Connect to device (Make sure to change the resource locator!)
+    device = rm.open_resource('TCPIP::192.168.188.29::INSTR',query_delay=0.25)
+except:
+    print('Failed to connect to device...')
+    sys.exit(0)
 device.timeout = 30000
 
 CHAN = 1
