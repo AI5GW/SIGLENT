@@ -11,14 +11,19 @@
  *
 """
 
+import sys
 import pyvisa as visa
 import numpy as np
 
-rm = visa.ResourceManager()
+try:
+    rm = visa.ResourceManager()
 
-# Connect to device (Make sure to change the resource locator!)
-device = rm.open_resource('TCPIP::192.168.188.29::INSTR',query_delay=0.25)
-
+    # Connect to device (Make sure to change the resource locator!)
+    device = rm.open_resource('TCPIP::192.168.188.29::INSTR',query_delay=0.25)
+except:
+    print('Failed to connect to device...')
+    sys.exit(0)
+    
 # prevent time-out errors by increasing the timeout to 10 seconds
 device.timeout = 10000
 
@@ -46,8 +51,23 @@ for n in range(len(WAVE)):
     # Uncomment next line for a double sideband (DSB) signal (Carrier= 1 kHz, AF = 100 Hz)
     #WAVE[n] = Amplitude*np.sin(100*F_FACTOR*n)*np.cos(1000*F_FACTOR*n)
 
+    # Uncomment next line for a double sideband (DSB) signal (Carrier= 1 kHz, AF = 100 Hz)
+    #WAVE[n] = Amplitude*np.sin(100*F_FACTOR*n)*np.cos(1000*F_FACTOR*n)
+
     # Uncommend next line for a dual-tone signal (1209 Hz + 697 Hz = DTMF '1')
     #WAVE[n] = 0.5 * Amplitude*np.sin(1209*F_FACTOR*n) + 0.5 * Amplitude * np.cos(697*F_FACTOR*n)
+
+    # Uncomment next line for a sawtooth wave
+    #WAVE[n] = n
+
+    # Uncomment next line for a (approximated) square wave, increase sample rate (1638400)
+    #WAVE[n] = Amplitude*(np.sin(F*F_FACTOR*n)+(1/3)*np.sin(3*F*F_FACTOR*n)+(1/5)*np.sin(5*F*F_FACTOR*n)+(1/7)*np.sin(7*F*F_FACTOR*n))
+
+    # Uncomment next line for a (approximated) triangle wave, increase sample rate (1638400)
+    #WAVE[n] = 0.85*Amplitude*(np.sin(F*F_FACTOR*n)-(1/9)*np.sin(3*F*F_FACTOR*n)+(1/25)*np.sin(5*F*F_FACTOR*n)-(1/49)*np.sin(7*F*F_FACTOR*n))+(1/81)*np.sin(9*F*F_FACTOR*n)
+
+    # Uncomment next line for a stereo multiplex signal (Right: 1800 Hz, Left:700 Hz, Pilot: 19 kHz), increase sample rate (1638400)
+    #WAVE[n] = 0.3*Amplitude*(np.sin(700*F_FACTOR*n)+np.sin(1800*F_FACTOR*n)+np.sin(19000*F_FACTOR*n)+np.sin(38000*F_FACTOR*n)*(np.sin(700*F_FACTOR*n)-np.sin(1800*F_FACTOR*n)))
 
 # Write Waveform to Device
 # Note: byte order = little-endian!
