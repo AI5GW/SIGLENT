@@ -3,6 +3,8 @@ Python code examples for SIGLENT equipment
 This repository is a collection of various Python code examples for SIGLENT test & measurement equipment. Browse the "src" folder for the example scripts. 
 
 If you find these examples useful, please consider sponsoring this project through the links provided on the right side of this page. 
+
+![Stereo FM MPX](https://github.com/AI5GW/SIGLENT/blob/main/src/STEREO_MPX/SDS2104X%20HD_PNG_40.png)        
     
 ![Import bode plot Data](https://github.com/AI5GW/SIGLENT/blob/main/src/BODE_CSV/Figure_1.png)    
     
