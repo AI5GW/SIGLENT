@@ -37,8 +37,6 @@ WAVE = np.arange(0, 0xfffe, 1);
 SAMPLE_RATE = 1638400
 
 # Calculate factor for normalized frequency
-#F_FACTOR = (0.5*np.pi/SAMPLE_RATE)
-
 F_FACTOR = (np.pi/(2*SAMPLE_RATE))
 
 # Fill the waveform array with data
@@ -47,7 +45,7 @@ for n in range(len(WAVE)):
     # Amplitude (MAX 32767 on SDG1032X)
     Amplitude = 32767
 
-    # Uncomment next line for a stereo multiplex signal (Right: 1800 Hz, Left:700 Hz, Pilot: 19 kHz), increase sample rate (1638400)
+    # Generate waveform data
     WAVE[n] = 0.47*Amplitude*(np.sin(700*F_FACTOR*n)+np.sin(2200*F_FACTOR*n)+0.1*np.sin(19000*F_FACTOR*n)+np.sin(38000*F_FACTOR*n)*(np.sin(700*F_FACTOR*n)-np.sin(2200*F_FACTOR*n)))
 
     
@@ -60,8 +58,3 @@ device.write("C1:ARWV NAME,STEREO_MPX")
 
 #Enable true Arb functionality
 device.write("C1:SRATE MODE,TARB,VALUE,%f,INTER,LINE" % SAMPLE_RATE)
-
-
-
-  
-    
